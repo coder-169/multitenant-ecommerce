@@ -16,7 +16,6 @@ interface NavbarItemProps {
   isActive?: boolean;
 }
 export const NavbarItem = ({ href, children, isActive }: NavbarItemProps) => {
-  console.log(isActive);
   return (
     <Button
       asChild
@@ -74,7 +73,8 @@ export const Navbar = () => {
         </Button>
 
         <Button className="border-0 border-l px-12 h-full rounded-none bg-black text-white hover:text-black hover:bg-pink-400 transition-colors text-lg">
-          <Link href={"/sign-up"}>Start Selling</Link>
+          <Link href={"/admin"}>Admin</Link>
+          {/* <Link href={"/sign-up"}>Start Selling</Link> */}
         </Button>
       </div>
       <div className="flex items-center lg:hidden justify-center">
@@ -98,7 +98,7 @@ import {
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
-import { MenuIcon, MenuSquareIcon } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 
 // Navbar Sidebar Items
 interface Props {
