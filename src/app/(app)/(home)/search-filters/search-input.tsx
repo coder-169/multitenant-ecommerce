@@ -4,14 +4,16 @@ import { Input } from "@/components/ui/input";
 import { ListFilterIcon, SearchIcon } from "lucide-react";
 import React, { useState } from "react";
 import CategoriesSidebar from "./categories-sidebar";
-import { CustomCategory } from "../types";
 import { Button } from "@/components/ui/button";
+import { useTRPC } from "@/trpc/client";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface SearchInputProps {
   disabled?: boolean;
-  data: CustomCategory[];
 }
-const SearchInput = ({ disabled, data }: SearchInputProps) => {
+const SearchInput = ({ disabled }: SearchInputProps) => {
+    const trpc = useTRPC();
+  const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <div className="flex items-center gap-2 w-full">

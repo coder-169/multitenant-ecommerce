@@ -6,13 +6,6 @@ import {
 } from "@/components/ui/sheet";
 import React, { useState } from "react";
 import { CustomCategory } from "../types";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronLeft, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

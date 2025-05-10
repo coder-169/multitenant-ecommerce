@@ -1,6 +1,5 @@
 "use client";
 
-import { Category } from "@/payload-types";
 import CategoryDropdown from "./category-dropdown";
 import { CustomCategory } from "../types";
 import { useEffect, useRef, useState } from "react";
@@ -8,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ListFilterIcon } from "lucide-react";
 import CategoriesSidebar from "./categories-sidebar";
+import { useTRPC } from "@/trpc/client";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
-interface CategoriesProps {
-  data: CustomCategory[];
-}
-
-const Categories = ({ data }: CategoriesProps) => {
+const Categories = () => {
+  const trpc = useTRPC();
+  const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
   const measureRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const viewAllRef = useRef<HTMLDivElement>(null);
@@ -56,13 +55,17 @@ const Categories = ({ data }: CategoriesProps) => {
   }, [data.length]);
   return (
     <div className="relative w-full">
-      <CategoriesSidebar isOpen={isSidebarOpen} onOpen={setIsSidebarOpen} data={data}/>
+      <CategoriesSidebar
+        isOpen={isSidebarOpen}
+        onOpen={setIsSidebarOpen}
+        data={data}
+      />
       <div
         ref={measureRef}
         className="absolute opacity-0 pointer-events-none flex"
         style={{ position: "fixed", left: -9999, top: -9999 }}
       >
-        {data.map((category: Category) => {
+        {data.map((category: CustomCategory) => {
           return (
             <div key={category.id} className="flex items-center gap-2">
               <CategoryDropdown
@@ -80,7 +83,7 @@ const Categories = ({ data }: CategoriesProps) => {
         onMouseEnter={() => setIsAnyHovered(true)}
         onMouseLeave={() => setIsAnyHovered(false)}
       >
-        {data.slice(0, visibleCount).map((category: Category) => {
+        {data.slice(0, visibleCount).map((category: CustomCategory) => {
           return (
             <div key={category.id} className="flex items-center gap-2">
               <CategoryDropdown
