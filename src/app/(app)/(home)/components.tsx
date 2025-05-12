@@ -6,6 +6,18 @@ import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useState } from "react";
+import { MenuIcon } from "lucide-react";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["700"],
@@ -40,6 +52,9 @@ const navbarItems = [
 export const Navbar = () => {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const trpc = useTRPC();
+  const session = useQuery(trpc.auth.session.queryOptions());
   return (
     <nav className="h-20 flex border-b font-medium  justify-between text-white">
       <Link href={"/"} className="pl-6 text-black flex items-center">
@@ -63,20 +78,28 @@ export const Navbar = () => {
           </NavbarItem>
         ))}
       </div>
-      <div className="hidden lg:flex">
-        <Button
-          asChild
-          className="border-0 border-l px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
-          variant={"secondary"}
-        >
-          <Link href={"/log-in"}>Log in</Link>
-        </Button>
+      {session.data?.user ? (
+        <div className="hidden lg:flex">
+          <Button className="border-0 border-l px-12 h-full rounded-none bg-black text-white hover:text-black hover:bg-pink-400 transition-colors text-lg">
+            <Link href={"/admin"}>Dashboard</Link>
+          </Button>
+        </div>
+      ) : (
+        <div className="hidden lg:flex">
+          <Button
+            asChild
+            className="border-0 border-l px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
+            variant={"secondary"}
+          >
+            <Link href={"/sign-in"}>Log in</Link>
+          </Button>
 
-        <Button className="border-0 border-l px-12 h-full rounded-none bg-black text-white hover:text-black hover:bg-pink-400 transition-colors text-lg">
-          <Link href={"/admin"}>Admin</Link>
-          {/* <Link href={"/sign-up"}>Start Selling</Link> */}
-        </Button>
-      </div>
+          <Button className="border-0 border-l px-12 h-full rounded-none bg-black text-white hover:text-black hover:bg-pink-400 transition-colors text-lg">
+            <Link prefetch href={"/sign-up"}>Start Selling</Link>
+            {/* <Link href={"/sign-up"}>Start Selling</Link> */}
+          </Button>
+        </div>
+      )}
       <div className="flex items-center lg:hidden justify-center">
         <Button
           variant={"ghost"}
@@ -89,16 +112,6 @@ export const Navbar = () => {
     </nav>
   );
 };
-
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
-import { MenuIcon } from "lucide-react";
 
 // Navbar Sidebar Items
 interface Props {

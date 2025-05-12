@@ -1,20 +1,22 @@
-'use client'
+"use client";
 
 import { Input } from "@/components/ui/input";
-import { ListFilterIcon, SearchIcon } from "lucide-react";
+import { BookmarkCheck, ListFilterIcon, SearchIcon } from "lucide-react";
 import React, { useState } from "react";
 import CategoriesSidebar from "./categories-sidebar";
 import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
 interface SearchInputProps {
   disabled?: boolean;
 }
 const SearchInput = ({ disabled }: SearchInputProps) => {
-    const trpc = useTRPC();
+  const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { data: session } = useQuery(trpc.auth.session.queryOptions());
   return (
     <div className="flex items-center gap-2 w-full">
       <CategoriesSidebar
@@ -30,10 +32,21 @@ const SearchInput = ({ disabled }: SearchInputProps) => {
           disabled={disabled}
         />
       </div>
-      {/* todo Add categories button and library button */}
-      <Button onClick={()=>setIsSidebarOpen(true)} variant={"elevated"} className="shrink-0 size-12 flex lg:hidden">
+      <Button
+        onClick={() => setIsSidebarOpen(true)}
+        variant={"elevated"}
+        className="shrink-0 size-12 flex lg:hidden"
+      >
         <ListFilterIcon />
       </Button>
+      {session?.user && (
+        <Button asChild variant={"elevated"}>
+          <Link href="/">
+            <BookmarkCheck />
+            Library
+          </Link>
+        </Button>
+      )}
     </div>
   );
 };
