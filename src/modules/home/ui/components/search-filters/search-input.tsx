@@ -28,7 +28,7 @@ const SearchInput = ({ disabled }: SearchInputProps) => {
         <SearchIcon className="absolute top-1/2 left-3 -translate-y-1/2 size-4 text-neutral-500" />
         <Input
           placeholder="Search products"
-          className="pl-8"
+          className="pl-8 bg-white"
           disabled={disabled}
         />
       </div>

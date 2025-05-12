@@ -5,7 +5,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import React, { useState } from "react";
-import { CustomCategory } from "../types";
+import { CustomCategory } from "@/app/(app)/(home)/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronLeft, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

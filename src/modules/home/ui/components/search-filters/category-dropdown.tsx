@@ -6,7 +6,7 @@ import React, { useRef, useState } from "react";
 import SubCategoryMenu from "./subcategory-menu";
 import useDropDownPosition from "./use-dropdown-position";
 import Link from "next/link";
-import { CustomCategory } from "../types";
+import { CustomCategory } from "@/app/(app)/(home)/types";
 
 interface CategoryDropdownProps {
   category: CustomCategory;

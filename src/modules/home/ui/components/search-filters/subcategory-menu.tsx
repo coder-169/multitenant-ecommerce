@@ -1,7 +1,7 @@
 import { Category } from "@/payload-types";
 import Link from "next/link";
 import React from "react";
-import { CustomCategory } from "../types";
+import { CustomCategory } from "@/app/(app)/(home)/types";
 
 interface SubCategoryMenuProps {
   category: CustomCategory;
