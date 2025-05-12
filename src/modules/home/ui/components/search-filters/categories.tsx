@@ -86,6 +86,7 @@ const Categories = () => {
         onMouseEnter={() => setIsAnyHovered(true)}
         onMouseLeave={() => setIsAnyHovered(false)}
       >
+        {/* // todo Hardcode 'All' Button */}
         {data.slice(0, visibleCount).map((category: CustomCategory) => {
           return (
             <div key={category.id} className="flex items-center gap-2">

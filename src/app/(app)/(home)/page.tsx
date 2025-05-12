@@ -1,12 +1,9 @@
-"use client";
+import { caller } from "@/trpc/server";
 
-import { useTRPC } from "@/trpc/client";
-import { useQuery } from "@tanstack/react-query";
+const Home = async () => {
+  const products = await caller.products.getMany();
 
-const Home = () => {
-  const trpc = useTRPC();
-  const { data } = useQuery(trpc.auth.session.queryOptions());
-  return <div>{JSON.stringify(data?.user, null, 2)}</div>;
+  return <div>{JSON.stringify(products.docs, null, 2)}</div>;
 };
 
 export default Home;
